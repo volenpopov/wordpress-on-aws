@@ -1,0 +1,8 @@
+region = "us-east-1"
+
+# The name of the S3 bucket that will serve as a remote terraform backend, storing all the terraform state files related to our infrastructure. Needs to be globally unique.
+bucket = ""
+
+encrypt = true
+dynamodb_table = "terraform-state-lock"
+
