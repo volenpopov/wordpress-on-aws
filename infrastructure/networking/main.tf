@@ -149,9 +149,9 @@ resource "aws_security_group_rule" "ingress_mysql" {
 }
 
 ##################################
-# VPC Endpoint
+# VPC Endpoints
 ##################################
-resource "aws_vpc_endpoint" "this" {
+resource "aws_vpc_endpoint" "cwlogs" {
   vpc_id            = aws_vpc.this.id
   service_name      = "com.amazonaws.${var.region}.logs"
   vpc_endpoint_type = "Interface"
@@ -183,3 +183,5 @@ resource "aws_vpc_endpoint" "this" {
     Name = "cwlogs-endpoint"
   }
 }
+
+# TODO: Add more VPC endpoints - SSM, etc.

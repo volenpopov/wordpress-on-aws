@@ -1,16 +1,6 @@
 variable "region" {
   description = "The AWS region in which the infrastructure will be deployed."
   type        = string
-  default     = "us-east-1"
-}
-
-variable "default_tags" {
-  description = "The default tags that are applied to all resources. Configured on a provider level."
-  type        = map(string)
-  default = {
-    App     = "wordpress"
-    Creator = "terraform"
-  }
 }
 
 variable "remote_state_bucket_name" {
