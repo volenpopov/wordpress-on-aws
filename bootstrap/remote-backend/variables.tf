@@ -19,8 +19,14 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "backup_region" {
+  description = "The backup AWS region used for increasing global resilience."
+  type        = string
+  default     = "eu-west-1"
+}
+
 variable "bucket" {
-  description = "The name of the S3 bucket that will serve as a remote terraform backend, storing all the terraform state files related to our infrastructure."
+  description = "The name of the S3 source bucket that will serve as a remote terraform backend, storing all the terraform state files related to our infrastructure."
   type        = string
 }
 

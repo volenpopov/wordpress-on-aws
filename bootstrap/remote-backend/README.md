@@ -25,4 +25,12 @@ Cleanup:
 Command for Disabling MFADelete on the bucket:
 aws-vault exec --no-session root@wordpress -- aws s3api put-bucket-versioning --bucket BUCKET_NAME  --versioning-configuration Status=Enabled,MFADelete=Disabled --mfa "ROOT_USER_MFA_SERIAL MFA_CODE"
 
+aws-vault exec --no-session root@wordpress -- aws s3api put-bucket-versioning --bucket BUCKET_NAME  --versioning-configuration Status=Enabled,MFADelete=Disabled --mfa "ROOT_USER_MFA_SERIAL MFA_CODE"
+
 - comment out the lifecycle = { prevent_destroy = true } part in s3.tf
+- migrate the remote backend state file to your local machine run terraform state pull > terraform.tfstate
+- comment the backend "s3" part in your backend.tf file
+- init terraform again with the updated backend.tf file by running aws-vault exec PROFILE -- terraform init -migrate-state
+- delete all objects from the s3 bucket by running aws s3 rm s3://BUCKET_NAME --recursive
+- go to the aws console and manually delete all versions from your s3 bucket
+- run terraform destroy through aws-vault you can ommit typing the variables that you are asked for

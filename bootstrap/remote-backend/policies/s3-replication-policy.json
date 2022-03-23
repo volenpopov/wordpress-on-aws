@@ -1,0 +1,78 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetReplicationConfiguration",
+                "s3:GetObjectVersionForReplication",
+                "s3:GetObjectVersionAcl",
+                "s3:GetObjectVersionTagging",
+                "s3:GetObjectRetention",
+                "s3:GetObjectLegalHold"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "${source_bucket_arn}",
+                "${source_bucket_arn}/*"
+            ]
+        },
+        {
+            "Action": [
+                "s3:ReplicateObject",
+                "s3:ReplicateDelete",
+                "s3:ReplicateTags",
+                "s3:GetObjectVersionTagging",
+                "s3:ObjectOwnerOverrideToBucketOwner"
+            ],
+            "Effect": "Allow",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "s3:x-amz-server-side-encryption": [
+                        "aws:kms",
+                        "AES256"
+                    ]
+                }
+            },
+            "Resource": [
+                "${destination_bucket_arn}/*"
+            ]
+        },
+        {
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Effect": "Allow",
+            "Condition": {
+                "StringLike": {
+                    "kms:ViaService": "s3.us-east-1.amazonaws.com",
+                    "kms:EncryptionContext:aws:s3:arn": [
+                        "${source_bucket_arn}/*"
+                    ]
+                }
+            },
+            "Resource": [
+                "arn:aws:kms:us-east-1:${account_id}:alias/aws/s3"
+            ]
+        },
+        {
+            "Action": [
+                "kms:Encrypt"
+            ],
+            "Effect": "Allow",
+            "Condition": {
+                "StringLike": {
+                    "kms:ViaService": [
+                        "s3.eu-west-1.amazonaws.com"
+                    ],
+                    "kms:EncryptionContext:aws:s3:arn": [
+                        "${destination_bucket_arn}/*"
+                    ]
+                }
+            },
+            "Resource": [
+                "arn:aws:kms:eu-west-1:${account_id}:alias/aws/s3"
+            ]
+        }
+    ]
+}
