@@ -1,10 +1,10 @@
 locals {
   azs = ["${var.region}a", "${var.region}b", "${var.region}c"]
 
-  compute_subnets_range  = range(0, 3)
-  storage_subnets_range  = range(3, 6)
-  database_subnets_range = range(6, 8)
-  public_subnets_range   = range(8, 11)
+  compute_subnets_range  = range(0, 3)  # 3 Compute Subnets
+  storage_subnets_range  = range(3, 6)  # 3 Storage Subnets
+  database_subnets_range = range(6, 8)  # 2 Database Subnets
+  public_subnets_range   = range(8, 11) # 3 Public Subnets
 
   public_subnets = [for index in local.public_subnets_range : cidrsubnet(var.vpc_cidr, 4, index)]
 
