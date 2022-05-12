@@ -12,7 +12,7 @@ resource "aws_db_instance" "this" {
   engine         = "mysql"
   engine_version = "5.7.31"
   instance_class = "db.t3.micro"
-  identifier = "wordpress-db"
+  identifier     = "wordpress-db"
 
   db_name              = var.db_name
   username             = var.db_user

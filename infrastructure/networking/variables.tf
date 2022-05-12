@@ -35,7 +35,9 @@ variable "port_mappings" {
   description = "Mapping of used protocols and their respective port."
   type        = map(string)
   default = {
+    ssh   = "22"
     http  = "80"
+    https = "443"
     mysql = "3306"
     nfs   = "2049"
   }
@@ -45,4 +47,10 @@ variable "subnet_prefix" {
   description = "A prefix used in the names of all subnets."
   type        = string
   default     = "sn"
+}
+
+variable "vpc_endpoint_services" {
+  description = "The services for which the communication will be done through a vpc endpoint."
+  type        = list(string)
+  default     = ["logs", "ssm", "ssmmessages", "ec2messages"]
 }

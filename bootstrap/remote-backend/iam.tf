@@ -1,11 +1,11 @@
 resource "aws_iam_role" "replication" {
-  name = "tf-s3-replication-role"
+  name = "TFS3Replication"
 
   assume_role_policy = file("${path.module}/policies/s3-replication-assume-policy.json")
 }
 
 resource "aws_iam_policy" "replication" {
-  name = "tf-s3-replication-policy"
+  name = "TFS3ReplicationPolicy"
 
   policy = templatefile("${path.module}/policies/s3-replication-policy.json", {
     account_id             = data.aws_caller_identity.this.account_id

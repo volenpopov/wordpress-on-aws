@@ -8,7 +8,7 @@ locals {
 }
 
 generate "provider" {
-  path      = "providers.tf"
+  path      = "providers.gitignore.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 terraform {
@@ -45,7 +45,7 @@ remote_state {
   }
 
   generate = {
-    path      = "backend.tf"
+    path      = "backend.gitignore.tf"
     if_exists = "overwrite_terragrunt"
   }
 }

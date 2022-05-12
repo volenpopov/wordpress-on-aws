@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Install Update
+sudo yum -y update
+sudo yum -y upgrade
+
+# Install pre-requisites and web server
+sudo yum install -y httpd wget
+sudo amazon-linux-extras install -y php7.2
+sudo amazon-linux-extras install epel -y
+sudo yum install stress -y
+
+# Set HTTP Server running and start by default
+sudo systemctl enable httpd
+sudo systemctl start httpd
+
+# Download and extract Wordpress
+sudo wget http://wordpress.org/latest.tar.gz -P /var/www/html
+cd /var/www/html
+sudo tar -zxvf latest.tar.gz
+sudo cp -rvf wordpress/* .
+sudo rm -R wordpress
+sudo rm latest.tar.gz
+
+# Fix permissions on the filesystem
+sudo usermod -a -G apache ec2-user   
+sudo chown -R ec2-user:apache /var/www
+sudo chmod 2775 /var/www
+sudo find /var/www -type d -exec chmod 2775 {} \;
+sudo find /var/www -type f -exec chmod 0664 {} \;
